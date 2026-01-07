@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ClearCover • Trust-First Insurance Portal (Demo)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <!-- simple shield mark -->
+        <svg viewBox="0 0 64 64" role="img" aria-label="ClearCover logo">
+          <path d="M32 4c10 7 19 9 26 10v22c0 14-10 22-26 28C16 58 6 50 6 36V14c7-1 16-3 26-10z"></path>
+          <path d="M18 33l9 9 19-21" class="mark"></path>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">ClearCover</div>
+        <div class="brand-tag">Simple. Transparent. Accurate.</div>
+      </div>
+    </div>
+
+    <nav class="tabs" aria-label="Primary navigation">
+      <button class="tab is-active" data-tab="quote" type="button">
+        <span class="tab-ico" aria-hidden="true">🧾</span>
+        Get a Quote
+      </button>
+      <button class="tab" data-tab="policy" type="button">
+        <span class="tab-ico" aria-hidden="true">📄</span>
+        My Policy
+      </button>
+      <button class="tab" data-tab="agent" type="button">
+        <span class="tab-ico" aria-hidden="true">🧑‍💼</span>
+        Agent Copilot
+      </button>
+      <button class="tab" data-tab="quality" type="button">
+        <span class="tab-ico" aria-hidden="true">📈</span>
+        Quality Monitor
+      </button>
+    </nav>
+
+    <div class="status">
+      <div class="pill" id="policyVersionPill" data-tooltip="Every publish creates a new policy version.">
+        Version: <span id="policyVersion">v0</span>
+      </div>
+      <div class="pill" id="syncPill" data-tooltip="Shows whether Portal / Agent / PDF views match the same source of truth.">
+        Sync: <span id="syncStatus" class="sync-ok">OK</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="main">
+      <!-- QUOTE / SIGN-UP -->
+      <div class="panel" id="view-quote" role="region" aria-label="Get a quote">
+        <div class="panel-head">
+          <div>
+            <h1>Get a Quote</h1>
+            <p class="muted">
+              A demo portal that addresses: form errors, mismatched policy versions, slow updates,
+              customer distrust, and agent overload.
+            </p>
+          </div>
+          <div class="panel-actions">
+            <button class="ghost" id="btnLoadSample" type="button" data-tooltip="Loads a realistic sample so you can test quickly.">
+              Load sample data
+            </button>
+            <button class="ghost" id="btnReset" type="button" data-tooltip="Clears saved data from your browser.">
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <div class="stepper" aria-label="Quote steps">
+          <div class="step is-active" data-step-ind="0"><span class="bubble">1</span> Type</div>
+          <div class="step" data-step-ind="1"><span class="bubble">2</span> Plan</div>
+          <div class="step" data-step-ind="2"><span class="bubble">3</span> Proposal</div>
+          <div class="step" data-step-ind="3"><span class="bubble">4</span> Policy</div>
+          <div class="step" data-step-ind="4"><span class="bubble">5</span> Review</div>
+</div>
+          <div class="step" data-step-ind="1"><span class="bubble">2</span> About you</div>
+          <div class="step" data-step-ind="2"><span class="bubble">3</span> Details</div>
+          <div class="step" data-step-ind="3"><span class="bubble">4</span> Coverage</div>
+          <div class="step" data-step-ind="4"><span class="bubble">5</span> Review</div>
+        </div>
+
+        <!-- Step 0: Type selection -->
+                <section class="step-view" data-step="0"
+          data-help-title="Choose vehicle type"
+          data-help-body="Pick Auto (4-wheeler) or Two-wheeler. The rest of the flow adapts to reduce confusion and mistakes.">
+          <h2>Select what you want to insure</h2>
+          <p class="muted">More visual, less paperwork. Click a card to continue.</p>
+
+          <div class="type-grid">
+            <button class="type-card" type="button" data-type="auto"
+              data-help-title="Auto insurance (4-wheeler)"
+              data-help-body="Use this for cars. You'll choose Silver or Gold, then fill a lean proposal form with auto-calculated premium.">
+              <div class="type-art" aria-hidden="true">
+                <svg viewBox="0 0 240 140">
+                  <defs>
+                    <linearGradient id="gCar" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="currentColor" stop-opacity="0.25"></stop>
+                      <stop offset="1" stop-color="currentColor" stop-opacity="0.05"></stop>
+                    </linearGradient>
+                  </defs>
+                  <rect x="10" y="20" width="220" height="110" rx="20" fill="url(#gCar)"></rect>
+                  <path d="M60 82c8-22 18-32 40-32h40c18 0 28 10 40 32l10 6v18H50V88l10-6z" fill="currentColor" opacity="0.85"></path>
+                  <circle cx="78" cy="110" r="16" fill="currentColor" opacity="0.9"></circle>
+                  <circle cx="162" cy="110" r="16" fill="currentColor" opacity="0.9"></circle>
+                  <circle cx="78" cy="110" r="8" fill="#0b0f1a" opacity="0.9"></circle>
+                  <circle cx="162" cy="110" r="8" fill="#0b0f1a" opacity="0.9"></circle>
+                </svg>
+              </div>
+              <div class="type-meta">
+                <div class="type-title">Auto</div>
+                <div class="type-sub">4-wheeler • Silver / Gold</div>
+              </div>
+              <div class="type-cta">Select →</div>
+            </button>
+
+            <button class="type-card" type="button" data-type="twoWheeler"
+              data-help-title="Two-wheeler insurance"
+              data-help-body="Use this for bikes/scooters. This demo includes the same trust-first flow; you can later plug in your Two-Wheeler policy document.">
+              <div class="type-art" aria-hidden="true">
+                <svg viewBox="0 0 240 140">
+                  <defs>
+                    <linearGradient id="gBike" x1="1" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="currentColor" stop-opacity="0.25"></stop>
+                      <stop offset="1" stop-color="currentColor" stop-opacity="0.05"></stop>
+                    </linearGradient>
+                  </defs>
+                  <rect x="10" y="20" width="220" height="110" rx="20" fill="url(#gBike)"></rect>
+                  <circle cx="78" cy="105" r="18" fill="currentColor" opacity="0.88"></circle>
+                  <circle cx="162" cy="105" r="18" fill="currentColor" opacity="0.88"></circle>
+                  <path d="M95 105l20-45h18l12 26h-18l-8-16-14 35h-10z" fill="currentColor" opacity="0.85"></path>
+                  <path d="M115 60h32" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity="0.65"></path>
+                  <path d="M108 105h42" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity="0.55"></path>
+                  <circle cx="78" cy="105" r="8" fill="#0b0f1a" opacity="0.9"></circle>
+                  <circle cx="162" cy="105" r="8" fill="#0b0f1a" opacity="0.9"></circle>
+                </svg>
+              </div>
+              <div class="type-meta">
+                <div class="type-title">Two-wheeler</div>
+                <div class="type-sub">Bike • Scooter</div>
+              </div>
+              <div class="type-cta">Select →</div>
+            </button>
+          </div>
+
+          <div class="callout">
+            <strong>Tip:</strong> Hover any section (or focus a field) to see guidance in the panel on the right.
+          </div>
+        </section>
+
+
+        <!-- Step 1: About you -->
+                <section class="step-view" data-step="1"
+          data-help-title="Choose a plan"
+          data-help-body="Pick Silver or Gold. Premium and coverage package are auto-set. Silver is designed for vehicles below ₹15,00,000; Gold for above ₹15,00,000 (demo docs).">
+          <h2>Choose your plan</h2>
+          <p class="muted">Clear options, fewer surprises. Click a plan to continue.</p>
+
+          <div class="plan-grid">
+            <button class="plan-card" type="button" data-plan="Silver"
+              data-help-title="Silver plan"
+              data-help-body="1-year policy • Premium ₹12,000 • Vehicle value below ₹15,00,000 • Includes Liability and Collision (demo).">
+              <div class="plan-top">
+                <div class="plan-badge">SILVER</div>
+                <div class="plan-price">₹12,000<span class="plan-small">/year</span></div>
+              </div>
+              <div class="plan-title">Silver Auto</div>
+              <div class="plan-sub">Best for vehicles below ₹15,00,000</div>
+              <div class="plan-feats">
+                <div class="feat">✅ Liability (BI/PD)</div>
+                <div class="feat">✅ Collision (₹500 deductible)</div>
+                <div class="feat muted">— Comprehensive</div>
+                <div class="feat muted">— Rental reimbursement</div>
+              </div>
+              <div class="plan-cta">Select →</div>
+            </button>
+
+            <button class="plan-card gold" type="button" data-plan="Gold"
+              data-help-title="Gold plan"
+              data-help-body="2-year policy • Premium ₹22,000 • Vehicle value above ₹15,00,000 • Adds Comprehensive + Rental reimbursement (demo).">
+              <div class="plan-top">
+                <div class="plan-badge">GOLD</div>
+                <div class="plan-price">₹22,000<span class="plan-small">/2 years</span></div>
+              </div>
+              <div class="plan-title">Gold Auto</div>
+              <div class="plan-sub">Best for vehicles above ₹15,00,000</div>
+              <div class="plan-feats">
+                <div class="feat">✅ Liability (BI/PD)</div>
+                <div class="feat">✅ Collision (₹500 deductible)</div>
+                <div class="feat">✅ Comprehensive (₹250 deductible)</div>
+                <div class="feat">✅ Rental (₹1000/day, 30 days)</div>
+              </div>
+              <div class="plan-cta">Select →</div>
+            </button>
+          </div>
+
+          <div class="callout">
+            Plan details are populated from your Silver/Gold Auto demo policy docs. If you want Two‑Wheeler plan wording here, re‑upload a text-based Two‑Wheeler policy document.
+          </div>
+        </section>
+
+
+        <!-- Step 2: Details (Auto/Home) -->
+                <section class="step-view" data-step="2"
+          data-help-title="Proposal form"
+          data-help-body="Lean demo proposal form with auto-calculated premium. This is designed to map cleanly into your workflow.">
+          <h2>Proposal form (Lean)</h2>
+          <p class="muted">Premium and coverage package are auto-calculated (demo). Hover each field for guidance.</p>
+
+          <div class="grid two helpable"
+               data-help-title="Proposal fields"
+               data-help-body="These are the 9 lean fields: Policy Type, Policy Period, Proposer Name, Mobile Number, Vehicle Registration Number, Vehicle Value (INR), Coverage Package, Annual Premium, Declaration Accepted.">
+            <div class="field">
+              <label for="policyType">Policy Type <span class="q" data-tooltip="Choose Silver or Gold. This sets premium and coverage package automatically.">?</span></label>
+              <select id="policyType">
+                <option value="">Select…</option>
+                <option value="Silver">Silver</option>
+                <option value="Gold">Gold</option>
+              </select>
+              <div class="error" id="err_policyType"></div>
+            </div>
+
+            <div class="field">
+              <label for="policyPeriod">Policy Period <span class="q" data-tooltip="Select 1 or 2 years. In the demo, Silver defaults to 1 year and Gold defaults to 2 years.">?</span></label>
+              <select id="policyPeriod">
+                <option value="">Select…</option>
+                <option value="1 Year">1 Year</option>
+                <option value="2 Years">2 Years</option>
+              </select>
+              <div class="error" id="err_policyPeriod"></div>
+            </div>
+
+            <div class="field">
+              <label for="proposerName">Proposer Name <span class="q" data-tooltip="Enter the name you want on the policy.">?</span></label>
+              <input id="proposerName" placeholder="e.g., Ankit Patel" />
+              <div class="error" id="err_proposerName"></div>
+            </div>
+
+            <div class="field">
+              <label for="mobileNumber">Mobile Number <span class="q" data-tooltip="Digits only (10–15). Used for time-sensitive updates.">?</span></label>
+              <input id="mobileNumber" inputmode="tel" placeholder="9876543210" />
+              <div class="error" id="err_mobileNumber"></div>
+            </div>
+
+            <div class="field">
+              <label for="vehicleRegNumber">Vehicle Registration Number <span class="q" data-tooltip="Example format: MH02AB1234 (format can vary by region).">?</span></label>
+              <input id="vehicleRegNumber" placeholder="e.g., MH02AB1234" />
+              <div class="error" id="err_vehicleRegNumber"></div>
+            </div>
+
+            <div class="field">
+              <label for="vehicleValueINR">Vehicle Value (INR) <span class="q" data-tooltip="Used to recommend Silver vs Gold. Example: 900000.">?</span></label>
+              <input id="vehicleValueINR" type="number" inputmode="numeric" placeholder="e.g., 900000" />
+              <div class="hint" id="vehicleValueHint"></div>
+              <div class="error" id="err_vehicleValueINR"></div>
+            </div>
+
+            <div class="field">
+              <label for="coveragePackage">Coverage Package</label>
+              <input id="coveragePackage" readonly />
+            </div>
+
+            <div class="field">
+              <label for="annualPremium">Annual Premium</label>
+              <input id="annualPremium" readonly />
+            </div>
+
+            <div class="field span2">
+              <label class="check">
+                <input type="checkbox" id="declarationAccepted" />
+                <span>
+                  <strong data-tooltip="Required before submission in this demo.">Declaration Accepted</strong>
+                  <span class="muted small">I confirm the details above are accurate (demo).</span>
+                </span>
+              </label>
+              <div class="error" id="err_declarationAccepted"></div>
+            </div>
+          </div>
+
+          </div>
+            <ul class="muted small" style="margin:0 0 0 18px; line-height:1.6;">
+              <li>Create columns for the 9 fields in SharePoint List or Dataverse.</li>
+              <li>Policy Type dropdown <b>OnChange</b>: set a premium variable (₹12,000 for Silver, ₹22,000 for Gold).</li>
+              <li>Coverage Package can auto-select based on Policy Type.</li>
+              <li>Disable Submit unless Declaration Accepted is checked.</li>
+            </ul>
+          </div>
+        </section>
+
+
+        <!-- Step 3: Coverage -->
+                <section class="step-view" data-step="3"
+          data-help-title="Policy details"
+          data-help-body="This is the plain-English policy view. It should match what the agent sees and what the PDF shows to avoid distrust.">
+          <h2>Policy details (Plain English)</h2>
+          <p class="muted">Based on your selected plan (Silver/Gold). No fine print overload.</p>
+
+          <div class="grid two">
+            <div class="card helpable" data-help-title="Coverages selected"
+                 data-help-body="Coverage table pulled from the demo policy document (limits and deductibles).">
+              <div class="card-head">
+                <h3 id="policyDocTitle">—</h3>
+                <div class="muted small" id="policyDocMeta">—</div>
+              </div>
+              <div class="table-wrap">
+                <table class="nice-table" id="coverageTable" aria-label="Coverage table"></table>
+              </div>
+            </div>
+
+            <div class="card helpable" data-help-title="Conditions, exclusions, claims"
+                 data-help-body="Key conditions and exclusions in simplified language, plus a clear 'How to file a claim' section.">
+              <div class="card-head">
+                <h3>Conditions • Exclusions • Claims</h3>
+              </div>
+              <div id="policyWording" class="policy-text"></div>
+            </div>
+          </div>
+
+          <div class="callout">
+            <strong>Trust signal:</strong> The same wording should appear consistently across Portal, Agent and PDF views.
+          </div>
+        </section>
+
+
+        <!-- Step 4: Review -->
+        <section class="step-view" data-step="4"
+          data-help-title="Review"
+          data-help-body="Before you submit, we show a clear review with highlights, not fine print. This reduces “I didn’t know” moments and builds trust.">
+          <h2>Review & confirm</h2>
+
+          <div class="grid two">
+            <div class="card helpable" data-help-title="Review checklist"
+                 data-help-body="We surface likely issues now—when they’re easy to fix.">
+              <h3>Check for surprises</h3>
+              <div id="reviewIssues" class="stack"></div>
+              <div class="callout warn" id="reviewHumanNote" hidden>
+                <strong>Human review recommended:</strong> Some inputs look unusual or incomplete. A support agent should verify.
+              </div>
+            </div>
+
+            <div class="card helpable" data-help-title="What will be saved"
+                 data-help-body="Publishing creates a new version and syncs Portal / Agent / PDF. You can also simulate a mismatch to see how the system detects and fixes it.">
+              <h3>Publish policy version</h3>
+              <p class="muted">Publishing syncs the “single source of truth” everywhere.</p>
+              <div class="btn-row">
+                <button class="primary" type="button" id="btnPublish">Publish</button>
+                <button class="ghost" type="button" id="btnSimMismatch" data-tooltip="Intentionally desync system views to demonstrate mismatch detection.">
+                  Simulate mismatch
+                </button>
+              </div>
+              <div class="mini">
+                <div class="mini-row"><span>Portal view</span><span id="stampPortal">—</span></div>
+                <div class="mini-row"><span>Agent view</span><span id="stampAgent">—</span></div>
+                <div class="mini-row"><span>PDF view</span><span id="stampPdf">—</span></div>
+              </div>
+              <div class="btn-row">
+                <button class="ghost" type="button" id="btnReconcile" data-tooltip="Merge mismatched versions into one accurate view.">Reconcile now</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout">
+            After publishing, open <strong>My Policy</strong> to view and update details self-service.
+          </div>
+        </section>
+
+        <footer class="panel-foot">
+          <button class="ghost" type="button" id="btnBack">Back</button>
+          <div class="spacer"></div>
+          <button class="primary" type="button" id="btnNext">Next</button>
+        </footer>
+      </div>
+
+      <!-- MY POLICY -->
+      <div class="panel" id="view-policy" hidden role="region" aria-label="My policy">
+        <div class="panel-head">
+          <div>
+            <h1>My Policy</h1>
+            <p class="muted">Self-service updates with instant confirmation. Plain-English policy details.</p>
+          </div>
+          <div class="panel-actions">
+            <button class="ghost" id="btnGoToQuote" type="button">Edit quote</button>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <div class="card helpable" data-help-title="Policy in plain English"
+               data-help-body="This view reduces confusion. It should match what agents see and what the PDF shows.">
+            <h3>Summary</h3>
+            <div id="policyPlain" class="summary"></div>
+          </div>
+
+          <div class="card helpable" data-help-title="Quick updates"
+               data-help-body="Common changes (address, phone, adding a driver/resident) should not require a phone call. We confirm instantly and create a new version.">
+            <h3>Make a change</h3>
+
+            <div class="stack">
+              <div class="field">
+                <label for="updPhone">Update mobile</label>
+                <input id="updPhone" placeholder="New mobile number" />
+              </div>
+
+              <div class="field">
+                <label for="updAddr">Update vehicle registration</label>
+                <input id="updAddr" placeholder="New registration number" />
+              </div>
+
+              <div class="btn-row">
+                <button class="primary" type="button" id="btnApplyUpdate">Apply update</button>
+                <button class="ghost" type="button" id="btnNeedsHuman" data-tooltip="Escalate complex changes that need human approval.">Needs human review</button>
+              </div>
+
+              <div class="callout ok" id="updateConfirm" hidden>
+                <strong>Update confirmed.</strong> Your policy was updated and synced across systems.
+              </div>
+
+              <div class="callout warn" id="updateHuman" hidden>
+                <strong>Escalated to a human agent.</strong> We summarized your request to reduce back-and-forth.
+                <div class="muted small" id="humanSummary"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card helpable" data-help-title="Change history"
+             data-help-body="A simple version log builds trust by showing what changed, when, and why.">
+          <div class="card-head">
+            <h3>Change history</h3>
+            <div class="muted small">Each publish/update creates a new version.</div>
+          </div>
+          <div id="historyList" class="stack"></div>
+        </div>
+      </div>
+
+      <!-- AGENT COPILOT -->
+      <div class="panel" id="view-agent" hidden role="region" aria-label="Agent copilot">
+        <div class="panel-head">
+          <div>
+            <h1>Agent Copilot</h1>
+            <p class="muted">Summaries, likely fixes, and ready-to-send messages — so agents stop hopping screens.</p>
+          </div>
+          <div class="panel-actions">
+            <button class="ghost" id="btnGenDraft" type="button" data-tooltip="Draft a clear, friendly customer email based on the current policy.">Draft message</button>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <div class="card helpable" data-help-title="Customer snapshot"
+               data-help-body="Agents need a single, confident view. This summarizes the latest policy version in one screen.">
+            <h3>Customer snapshot</h3>
+            <div id="agentSnapshot" class="summary"></div>
+          </div>
+
+          <div class="card helpable" data-help-title="Draft response"
+               data-help-body="Polite, clear communication reduces repeat contacts and confusion. Agents can edit before sending.">
+            <h3>Draft response</h3>
+            <textarea id="agentDraft" rows="14" placeholder="Click “Draft message” to generate a response..."></textarea>
+            <div class="muted small">Demo only — doesn’t send email.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUALITY MONITOR -->
+      <div class="panel" id="view-quality" hidden role="region" aria-label="Quality monitor">
+        <div class="panel-head">
+          <div>
+            <h1>Quality Monitor</h1>
+            <p class="muted">Detect recurring errors, highlight mismatches, and track improvement signals.</p>
+          </div>
+          <div class="panel-actions">
+            <button class="ghost" id="btnRefreshQuality" type="button">Refresh</button>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <div class="card helpable" data-help-title="Issues detected"
+               data-help-body="Proactive monitoring prevents customer confusion by catching problems before they become tickets.">
+            <h3>Issues</h3>
+            <div id="qualityIssues" class="stack"></div>
+          </div>
+
+          <div class="card helpable" data-help-title="Trends"
+               data-help-body="Even a simple trend view helps teams focus on the biggest root causes (e.g., address mismatches).">
+            <h3>Trend snapshot</h3>
+            <canvas id="trendCanvas" width="520" height="240" aria-label="Trend chart"></canvas>
+            <div class="muted small">Simple built-in chart — no external libraries.</div>
+          </div>
+        </div>
+
+        <div class="callout">
+          Use this monitor to prioritize fixes (e.g., form field confusion, address mismatches, unusual vehicle years).
+        </div>
+      </div>
+    </section>
+
+    <aside class="side" aria-label="Guidance and assistant">
+      <div class="panel side-panel">
+        <div class="side-head">
+          <h2>Help & examples</h2>
+          <div class="muted small">Hover a section or focus a field to see guidance.</div>
+        </div>
+        <div class="side-body">
+          <div class="help-title" id="helpTitle">Start here</div>
+          <div class="help-body" id="helpBody">
+            Choose a step, then hover form areas for definitions and examples.
+          </div>
+        </div>
+      </div>
+
+            <div class="panel side-panel">
+        <div class="side-head">
+          <h2>Chatbot</h2>
+          <div class="muted small">Connect your Custom GPT here.</div>
+        </div>
+        <div class="side-body">
+          <a class="primary chatlink" id="openChatbot" href="#" target="_blank" rel="noreferrer noopener"
+             data-tooltip="Opens your Custom GPT chatbot link in a new tab.">Open chatbot</a>
+          <div class="muted small" style="margin-top:10px;">
+            Update <b>CHATBOT_URL</b> in <span style="font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">app.js</span>.
+          </div>
+        </div>
+      </div>
+<div class="panel side-panel">
+        <div class="side-head">
+          <h2>System views</h2>
+          <div class="muted small">Portal • Agent • PDF</div>
+        </div>
+        <div class="side-body">
+          <div class="mini">
+            <div class="mini-row"><span>Portal</span><span id="miniPortal">—</span></div>
+            <div class="mini-row"><span>Agent</span><span id="miniAgent">—</span></div>
+            <div class="mini-row"><span>PDF</span><span id="miniPdf">—</span></div>
+          </div>
+          <div class="muted small">
+            If these disagree, customers feel distrust. Reconcile fixes it.
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <div class="muted small">
+      Demo prototype inspired by the “ClearCover policy clarity & consistency” case study. Not for production use.
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
